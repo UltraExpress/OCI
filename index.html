@@ -12,139 +12,126 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --neon-blue: #00f7ff;
-            --deep-blue: #0a1929;
-            --glow-blue: #4cc9f0;
-            --accent-purple: #7209b7;
-            --card-bg: rgba(13, 25, 48, 0.7);
-        }
-
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a192f 0%, #000000 100%);
+            background: #000511;
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-            opacity: 0.3;
-        }
-
-        .background-grid {
+        /* Background Animation Styles */
+        .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: 
-                linear-gradient(rgba(0, 247, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 247, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
             z-index: 1;
-            animation: gridMove 20s linear infinite;
+            pointer-events: none;
         }
 
-        .container {
+        .orbit-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform-style: preserve-3d;
+            animation: initialSpin 80s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        .center-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(0, 247, 255, 0.1),
+                rgba(0, 247, 255, 0.05) 60%,
+                rgba(0, 247, 255, 0.02) 80%
+            );
+            box-shadow: 
+                inset 0 0 50px rgba(0, 247, 255, 0.2),
+                0 0 50px rgba(0, 247, 255, 0.1);
+        }
+
+        .orbital {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            transform-style: preserve-3d;
+        }
+
+        .node {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 247, 255, 0.9);
+            box-shadow: 
+                0 0 20px rgba(0, 247, 255, 0.8),
+                0 0 40px rgba(0, 247, 255, 0.4);
+        }
+
+        .orbit-path {
+            position: absolute;
+            top: -250px;
+            left: -250px;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Main Content Styles */
+        .content {
             position: relative;
             z-index: 2;
+            width: 100%;
+            min-height: 100vh;
             padding: 2rem;
         }
 
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 4rem;
-            padding: 1rem;
-            position: relative;
-        }
-
-        .header::before,
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            height: 2px;
-            width: 50%;
-            background: linear-gradient(90deg, transparent, var(--neon-blue));
-            animation: borderFlow 4s infinite;
-        }
-
-        .header::before {
-            left: 0;
-            transform-origin: left;
-        }
-
-        .header::after {
-            right: 0;
-            transform-origin: right;
-            animation-delay: 2s;
-        }
-
         .title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-            animation: titleGlow 2s infinite;
-            position: relative;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-top: 2rem;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
         }
 
-        .title::after {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: var(--neon-blue);
-            opacity: 0;
-            filter: blur(15px);
-            animation: titlePulse 2s infinite;
-        }
-
-        .grid {
+        .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            perspective: 1000px;
+            padding: 0 1rem;
         }
 
-        .card {
-            background: var(--card-bg);
+        .link-card {
+            background: rgba(0, 247, 255, 0.05);
             border: 1px solid rgba(0, 247, 255, 0.1);
             border-radius: 15px;
             padding: 1.5rem;
             cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
-            animation: cardFloat 6s infinite ease-in-out;
         }
 
-        .card::before {
+        .link-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -154,173 +141,140 @@
             background: linear-gradient(
                 90deg,
                 transparent,
-                rgba(0, 247, 255, 0.2),
+                rgba(0, 247, 255, 0.1),
                 transparent
             );
             transform: skewX(-15deg);
             transition: 0.5s;
         }
 
-        .card:hover {
-            transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
-            border-color: var(--neon-blue);
-            box-shadow: 
-                0 0 20px rgba(0, 247, 255, 0.2),
-                0 0 40px rgba(0, 247, 255, 0.1),
-                0 0 60px rgba(0, 247, 255, 0.05);
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 247, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
         }
 
-        .card:hover::before {
+        .link-card:hover::before {
             left: 100%;
-            transition: 0.5s;
         }
 
-        .card-title {
+        .link-title {
             font-size: 1.5rem;
             font-weight: 600;
-            background: linear-gradient(90deg, #fff, var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            z-index: 2;
+            margin-bottom: 0.5rem;
+            color: rgba(0, 247, 255, 0.9);
         }
 
-        .card-icon {
-            position: absolute;
-            top: 50%;
-            right: 1.5rem;
-            transform: translateY(-50%);
-            opacity: 0.5;
-            transition: all 0.3s ease;
-            font-size: 1.5rem;
-            animation: iconPulse 2s infinite;
+        @keyframes initialSpin {
+            0% { transform: translate(-50%, -50%) rotateY(0) rotateX(65deg) rotateZ(0); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg) rotateX(65deg) rotateZ(0); }
         }
 
-        .card:hover .card-icon {
-            opacity: 1;
-            transform: translateY(-50%) scale(1.2) rotate(15deg);
+        /* Star background */
+        .star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            animation-delay: var(--delay);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 10px rgba(0, 247, 255, 0.5); }
-            50% { text-shadow: 0 0 20px rgba(0, 247, 255, 0.8), 0 0 30px rgba(0, 247, 255, 0.6); }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: var(--brightness); }
         }
-
-        @keyframes titlePulse {
-            0%, 100% { opacity: 0; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.1); }
-        }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-50%) scale(1.1); }
-        }
-
-        @keyframes borderFlow {
-            0% { width: 0; opacity: 1; }
-            50% { width: 50%; opacity: 0.5; }
-            100% { width: 0; opacity: 1; }
-        }
-
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(var(--end-x), var(--end-y)); }
-        }
-
     </style>
 </head>
 <body>
-    <div class="background-grid"></div>
-    <div class="particles" id="particles"></div>
-    <div class="container">
-        <header class="header">
-            <h1 class="title" data-text="Olson Capital Investments">Olson Capital Investments</h1>
-        </header>
-        <div class="grid" id="services-grid"></div>
+    <!-- Background Animation -->
+    <div class="background">
+        <div class="orbit-container" id="orbit-container">
+            <div class="center-orb"></div>
+            <!-- Orbital nodes will be added here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1 class="title">OLSON CAPITAL<br>INVESTMENTS</h1>
+        <div class="links-grid" id="links-grid">
+            <!-- Links will be added here by JavaScript -->
+        </div>
     </div>
 
     <script>
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.top = Math.random() * 100 + 'vh';
-            particle.style.setProperty('--end-x', (Math.random() * 200 - 100) + 'px');
-            particle.style.setProperty('--end-y', (Math.random() * 200 - 100) + 'px');
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
         const services = [
             {
                 title: 'Flyer Dashboard',
-                icon: '↗',
                 url: 'https://flyering.runservice.app/flyer_dashboard.html'
             },
             {
                 title: 'Ultra Dashboard',
-                icon: '📊',
                 url: 'https://ultradashboard.runservice.app/'
             },
             {
                 title: 'Flyering Service',
-                icon: '🔄',
                 url: 'https://flyering.runservice.app/'
             },
             {
                 title: 'Ultra Maintenance',
-                icon: '⚡',
                 url: 'https://ultramaintenance.runservice.app/'
             },
             {
                 title: 'Ultra QC',
-                icon: '✓',
                 url: 'https://ultraqc.runservice.app/'
             }
         ];
 
-        function createServiceCard(service) {
-            return `
-                <div class="card" onclick="window.open('${service.url}', '_blank')">
-                    <h2 class="card-title">${service.title}</h2>
-                    <span class="card-icon">${service.icon}</span>
-                </div>
-            `;
+        // Create stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.setProperty('--duration', 2 + Math.random() * 4 + 's');
+            star.style.setProperty('--delay', Math.random() * 4 + 's');
+            star.style.setProperty('--brightness', 0.2 + Math.random() * 0.8);
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(star);
         }
 
-        // Add mouse movement effect to cards
-        document.getElementById('services-grid').innerHTML = services.map(createServiceCard).join('');
-        
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = -(x - centerX) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-            });
+        // Create orbital nodes for background animation
+        const container = document.getElementById('orbit-container');
+        const radius = 250;
+
+        services.forEach((service, index) => {
+            const angle = (index / services.length) * Math.PI * 2;
+            const orbital = document.createElement('div');
+            orbital.className = 'orbital';
             
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-            });
+            const path = document.createElement('div');
+            path.className = 'orbit-path';
+            path.style.transform = `rotateX(${index * 20}deg)`;
+            orbital.appendChild(path);
+
+            const node = document.createElement('div');
+            node.className = 'node';
+            orbital.appendChild(node);
+            
+            orbital.style.transform = `rotateX(${index * 20}deg) rotateZ(${angle * (180/Math.PI)}deg) translateX(${radius}px)`;
+            container.appendChild(orbital);
+        });
+
+        // Create link cards
+        const linksGrid = document.getElementById('links-grid');
+        services.forEach(service => {
+            const card = document.createElement('div');
+            card.className = 'link-card';
+            card.innerHTML = `
+                <h2 class="link-title">${service.title}</h2>
+            `;
+            card.addEventListener('click', () => window.open(service.url, '_blank'));
+            linksGrid.appendChild(card);
         });
     </script>
 </body>
