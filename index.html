@@ -288,6 +288,12 @@
 
 
 
+
+
+
+
+
+
 <!-- Enhanced Lock Screen -->
 <div id="lockScreen" class="lock-screen">
     <div class="lock-orbital-system">
@@ -296,7 +302,8 @@
         <div class="orbital-ring-3"></div>
         <div class="center-lock">
             <div class="scanner-line"></div>
-            <input type="password" id="passwordInput" class="lock-input" placeholder="ACCESS CODE" maxlength="7">
+            <div class="input-label">Enter Password</div>
+            <input type="password" id="passwordInput" class="lock-input" placeholder="●●●●●●●" maxlength="7">
         </div>
         <div class="orbital-nodes">
             <div class="node"></div>
@@ -367,15 +374,25 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     background: rgba(0, 247, 255, 0.05);
     border: 2px solid rgba(0, 247, 255, 0.2);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+}
+
+.input-label {
+    color: rgba(0, 247, 255, 0.9);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
 }
 
 .scanner-line {
@@ -387,16 +404,25 @@
 }
 
 .lock-input {
-    background: transparent;
-    border: none;
+    background: rgba(0, 247, 255, 0.05);
+    border: 1px solid rgba(0, 247, 255, 0.3);
+    border-radius: 20px;
     color: rgba(0, 247, 255, 0.9);
     font-size: 1.2rem;
     text-align: center;
     outline: none;
-    width: 120px;
+    width: 140px;
+    padding: 8px 12px;
     letter-spacing: 3px;
     position: relative;
     z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.lock-input:focus {
+    border-color: rgba(0, 247, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+    background: rgba(0, 247, 255, 0.1);
 }
 
 .lock-input::placeholder {
@@ -468,7 +494,6 @@
         transform: scale(1);
     }
 }
-
 </style>
 
 <script>
@@ -508,6 +533,16 @@ document.getElementById('passwordInput').addEventListener('keypress', function(e
     }
 });
 </script>
+
+
+
+
+
+
+
+
+
+    
 
 
 
