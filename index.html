@@ -122,13 +122,13 @@
     </div>
 
     <script>
-        // Password Protection
+// Password Protection
         const correctPassword = 'oci2025';
         const passwordScreen = document.getElementById('passwordScreen');
         const passwordInput = document.getElementById('passwordInput');
         const passwordError = document.getElementById('passwordError');
 
-        // Initially hide the content
+        // Initially hide the content [THIS IS WHERE WE START CHANGING]
         document.querySelector('.content').style.display = 'none';
         document.querySelector('.background').style.display = 'none';
 
@@ -142,18 +142,8 @@
                     // Show content with delay
                     setTimeout(() => {
                         passwordScreen.style.display = 'none';
-                        document.querySelector('.content').style.display = 'flex';
+                        document.querySelector('.content').style.display = 'block';
                         document.querySelector('.background').style.display = 'block';
-                    }, 500);
-                } else {
-                    // Show error message
-                    passwordError.classList.add('visible');
-                    passwordInput.value = '';
-                    
-                    // Shake animation
-                    passwordInput.style.animation = 'shake 0.5s ease';
-                    setTimeout(() => {
-                        passwordInput.style.animation = '';
                     }, 500);
                 }
             }
