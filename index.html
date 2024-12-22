@@ -284,5 +284,159 @@
             linksGrid.appendChild(card);
         });
     </script>
+
+
+
+
+<!-- Lock Screen Overlay -->
+<div id="lockScreen" class="lock-screen">
+    <div class="lock-container">
+        <div class="lock-content">
+            <div class="lock-circle"></div>
+            <input type="password" id="passwordInput" class="lock-input" placeholder="Enter Password">
+            <div class="lock-error" id="errorMessage"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+.lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 5, 17, 0.95);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.lock-container {
+    position: relative;
+    animation: fadeIn 1s ease-out;
+}
+
+.lock-content {
+    position: relative;
+    z-index: 2;
+}
+
+.lock-circle {
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(0, 247, 255, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
+}
+
+.lock-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(0, 247, 255, 0.3);
+    color: rgba(0, 247, 255, 0.9);
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 300px;
+    position: relative;
+    z-index: 3;
+}
+
+.lock-input::placeholder {
+    color: rgba(0, 247, 255, 0.3);
+}
+
+.lock-input:focus {
+    border-bottom-color: rgba(0, 247, 255, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 247, 255, 0.2);
+}
+
+.lock-error {
+    color: rgba(255, 0, 0, 0.8);
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        border-color: rgba(0, 247, 255, 0.2);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        border-color: rgba(0, 247, 255, 0.4);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        border-color: rgba(0, 247, 255, 0.2);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+</style>
+
+<script>
+document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        const password = this.value;
+        if (password === 'oci2025') {
+            document.getElementById('lockScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('lockScreen').style.display = 'none';
+            }, 1000);
+        } else {
+            const errorMsg = document.getElementById('errorMessage');
+            errorMsg.textContent = 'Incorrect password';
+            errorMsg.style.opacity = '1';
+            this.value = '';
+            
+            // Add shake animation
+            this.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+        }
+    }
+});
+
+// Add this to your existing styles
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    </style>
+`);
+</script>
+
+
+
+
+
+    
 </body>
 </html>
