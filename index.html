@@ -5,174 +5,284 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olson Capital Investments</title>
     <style>
-        /* ... (previous styles remain the same) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Password Screen Styles */
-        .password-screen {
+        body {
+            background: #000511;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* Background Animation Styles */
+        .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 5, 17, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .password-container {
+        .orbit-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform-style: preserve-3d;
+            animation: initialSpin 80s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        .center-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(0, 247, 255, 0.1),
+                rgba(0, 247, 255, 0.05) 60%,
+                rgba(0, 247, 255, 0.02) 80%
+            );
+            box-shadow: 
+                inset 0 0 50px rgba(0, 247, 255, 0.2),
+                0 0 50px rgba(0, 247, 255, 0.1);
+        }
+
+        .orbital {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            transform-style: preserve-3d;
+        }
+
+        .node {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 247, 255, 0.9);
+            box-shadow: 
+                0 0 20px rgba(0, 247, 255, 0.8),
+                0 0 40px rgba(0, 247, 255, 0.4);
+        }
+
+        .orbit-path {
+            position: absolute;
+            top: -250px;
+            left: -250px;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Main Content Styles */
+        .content {
             position: relative;
+            z-index: 2;
+            width: 100%;
+            min-height: 100vh;
             padding: 2rem;
-            border-radius: 15px;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-top: 2rem;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .link-card {
             background: rgba(0, 247, 255, 0.05);
-            border: 1px solid rgba(0, 247, 255, 0.2);
-            box-shadow: 0 0 30px rgba(0, 247, 255, 0.1);
-            animation: containerPulse 2s infinite ease-in-out;
-        }
-
-        .password-input {
-            background: transparent;
-            border: 2px solid rgba(0, 247, 255, 0.3);
-            border-radius: 8px;
-            color: rgba(0, 247, 255, 0.9);
-            padding: 12px 20px;
-            font-size: 1.2rem;
-            width: 250px;
-            text-align: center;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            outline: none;
-            letter-spacing: 3px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
 
-        .password-input::placeholder {
-            color: rgba(0, 247, 255, 0.4);
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 247, 255, 0.1),
+                transparent
+            );
+            transform: skewX(-15deg);
+            transition: 0.5s;
         }
 
-        .password-input:focus {
-            border-color: rgba(0, 247, 255, 0.8);
-            box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 247, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
         }
 
-        @keyframes containerPulse {
-            0%, 100% {
-                box-shadow: 0 0 30px rgba(0, 247, 255, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 50px rgba(0, 247, 255, 0.2);
-            }
+        .link-card:hover::before {
+            left: 100%;
         }
 
-        .password-error {
-            color: rgba(255, 0, 0, 0.8);
-            margin-top: 1rem;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .password-error.visible {
-            opacity: 1;
-        }
-
-        .unlock-icon {
-            font-size: 2rem;
+        .link-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
             color: rgba(0, 247, 255, 0.9);
-            margin-bottom: 1rem;
-            animation: iconFloat 2s infinite ease-in-out;
         }
 
-        @keyframes iconFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+        @keyframes initialSpin {
+            0% { transform: translate(-50%, -50%) rotateY(0) rotateX(65deg) rotateZ(0); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg) rotateX(65deg) rotateZ(0); }
         }
 
-        /* Keep all previous styles... */
+        /* Star background */
+        .star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            animation-delay: var(--delay);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: var(--brightness); }
+        }
     </style>
 </head>
 <body>
-    <!-- Password Screen -->
-    <div class="password-screen" id="passwordScreen">
-        <div class="password-container">
-            <div class="unlock-icon">🔒</div>
-            <input type="password" 
-                   class="password-input" 
-                   id="passwordInput" 
-                   placeholder="Enter Password"
-                   autocomplete="off">
-            <div class="password-error" id="passwordError">Incorrect Password</div>
-        </div>
-    </div>
-
-    <!-- Keep all previous content... -->
     <!-- Background Animation -->
     <div class="background">
-        <!-- ... previous content ... -->
+        <div class="orbit-container" id="orbit-container">
+            <div class="center-orb"></div>
+            <!-- Orbital nodes will be added here by JavaScript -->
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="content">
-        <!-- ... previous content ... -->
+        <h1 class="title">OLSON CAPITAL<br>INVESTMENTS</h1>
+        <div class="links-grid" id="links-grid">
+            <!-- Links will be added here by JavaScript -->
+        </div>
     </div>
 
     <script>
-// Password Protection
-        const correctPassword = 'oci2025';
-        const passwordScreen = document.getElementById('passwordScreen');
-        const passwordInput = document.getElementById('passwordInput');
-        const passwordError = document.getElementById('passwordError');
-
-        // Initially hide the content [THIS IS WHERE WE START CHANGING]
-        document.querySelector('.content').style.display = 'none';
-        document.querySelector('.background').style.display = 'none';
-
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (this.value === correctPassword) {
-                    // Successful login animation
-                    passwordScreen.style.transition = 'opacity 0.5s ease';
-                    passwordScreen.style.opacity = '0';
-                    
-                    // Show content with delay
-                    setTimeout(() => {
-                        passwordScreen.style.display = 'none';
-                        document.querySelector('.content').style.display = 'block';
-                        document.querySelector('.background').style.display = 'block';
-                    }, 500);
-                }
-            }
-        });
-
-        // Add shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                20%, 60% { transform: translateX(-10px); }
-                40%, 80% { transform: translateX(10px); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Keep all previous JavaScript...
         const services = [
-            // ... (previous services array remains exactly the same) ...
+            {
+                title: 'Flyer Dashboard',
+                url: 'https://flyering.runservice.app/flyer_dashboard.html'
+            },
+            {
+                title: 'Ultra Dashboard',
+                url: 'https://ultradashboard.runservice.app/'
+            },
+            {
+                title: 'Flyering Service',
+                url: 'https://flyering.runservice.app/'
+            },
+            {
+                title: 'Ultra Maintenance',
+                url: 'https://ultramaintenance.runservice.app/'
+            },
+            {
+                title: 'Ultra QC',
+                url: 'https://ultraqc.runservice.app/'
+            },
+            {
+                title: 'Expense Sheet',
+                url: 'https://docs.google.com/spreadsheets/d/1vqHbH2XWmZUR7fEvqAJleDRgVCSPEfynDjDLhVzWybw/edit?gid=0#gid=0'
+            },
+            {
+                title: 'Flyer App Database',
+                url: 'https://docs.google.com/spreadsheets/d/1Q-Sk8g_h3FnY-NS4CQe_rEARCJkG0pYIL8Bfzws-Vp8/edit?gid=0#gid=0'
+            }
         ];
 
         // Create stars
-        // ... (previous star creation code remains the same) ...
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.setProperty('--duration', 2 + Math.random() * 4 + 's');
+            star.style.setProperty('--delay', Math.random() * 4 + 's');
+            star.style.setProperty('--brightness', 0.2 + Math.random() * 0.8);
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(star);
+        }
 
-        // Create orbital nodes
-        // ... (previous orbital creation code remains the same) ...
+        // Create orbital nodes for background animation
+        const container = document.getElementById('orbit-container');
+        const radius = 250;
+
+        services.forEach((service, index) => {
+            const angle = (index / services.length) * Math.PI * 2;
+            const orbital = document.createElement('div');
+            orbital.className = 'orbital';
+            
+            const path = document.createElement('div');
+            path.className = 'orbit-path';
+            path.style.transform = `rotateX(${index * 20}deg)`;
+            orbital.appendChild(path);
+
+            const node = document.createElement('div');
+            node.className = 'node';
+            orbital.appendChild(node);
+            
+            orbital.style.transform = `rotateX(${index * 20}deg) rotateZ(${angle * (180/Math.PI)}deg) translateX(${radius}px)`;
+            container.appendChild(orbital);
+        });
 
         // Create link cards
-        // ... (previous link card creation code remains the same) ...
+        const linksGrid = document.getElementById('links-grid');
+        services.forEach(service => {
+            const card = document.createElement('div');
+            card.className = 'link-card';
+            card.innerHTML = `
+                <h2 class="link-title">${service.title}</h2>
+            `;
+            card.addEventListener('click', () => window.open(service.url, '_blank'));
+            linksGrid.appendChild(card);
+        });
     </script>
 </body>
 </html>
