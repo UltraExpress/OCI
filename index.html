@@ -290,15 +290,7 @@
 
 
 
-
-
-
-
-
-
-
-
-    <!-- Enhanced Lock Screen -->
+<!-- Enhanced Lock Screen -->
 <div id="lockScreen" class="lock-screen">
     <div class="lock-orbital-system">
         <div class="orbital-ring"></div>
@@ -314,6 +306,12 @@
             <div class="node"></div>
             <div class="node"></div>
             <div class="node"></div>
+            <div class="orbital-nodes-inner">
+                <div class="node"></div>
+                <div class="node"></div>
+                <div class="node"></div>
+                <div class="node"></div>
+            </div>
         </div>
     </div>
     <div class="system-status">SYSTEM LOCKED</div>
@@ -388,7 +386,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: visible; /* Changed from hidden to visible */
+    overflow: visible;
 }
 
 .input-label {
@@ -422,9 +420,9 @@
     padding: 8px 12px;
     letter-spacing: 3px;
     position: relative;
-    z-index: 1000; /* Increased z-index */
+    z-index: 1000;
     transition: all 0.3s ease;
-    pointer-events: auto; /* Explicitly enable pointer events */
+    pointer-events: auto;
 }
 
 .lock-input:focus {
@@ -446,6 +444,16 @@
     pointer-events: none;
 }
 
+.orbital-nodes-inner {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    animation: rotate-reverse 20s linear infinite;
+    pointer-events: none;
+}
+
 .node {
     position: absolute;
     width: 20px;
@@ -456,10 +464,17 @@
     pointer-events: none;
 }
 
-.node:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
-.node:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
-.node:nth-child(3) { left: 0; top: 50%; transform: translateY(-50%); }
-.node:nth-child(4) { right: 0; top: 50%; transform: translateY(-50%); }
+/* Outer nodes */
+.orbital-nodes .node:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+.orbital-nodes .node:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.orbital-nodes .node:nth-child(3) { left: 0; top: 50%; transform: translateY(-50%); }
+.orbital-nodes .node:nth-child(4) { right: 0; top: 50%; transform: translateY(-50%); }
+
+/* Inner nodes */
+.orbital-nodes-inner .node:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+.orbital-nodes-inner .node:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.orbital-nodes-inner .node:nth-child(3) { left: 0; top: 50%; transform: translateY(-50%); }
+.orbital-nodes-inner .node:nth-child(4) { right: 0; top: 50%; transform: translateY(-50%); }
 
 .system-status {
     position: absolute;
@@ -489,6 +504,11 @@
 @keyframes rotate {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
 }
 
 @keyframes scan {
